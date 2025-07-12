@@ -5,7 +5,7 @@ const tempUserSchema = mongoose.Schema({
   name: String,
   email: { type: String, unique: true },
   password: String,
-  verificationToken: String,
+  token: String,
   tokenExpires: Date
 });
 

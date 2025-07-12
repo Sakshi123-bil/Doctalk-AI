@@ -17,7 +17,7 @@ const handleVerifyUserClick = async (req, res) => {
     name,
     email,
     password: hashedPassword,
-    token,
+    token:token,
     tokenExpires: Date.now() + 15 * 60 * 1000
   });
 
@@ -34,16 +34,16 @@ const handleVerifyUserClick = async (req, res) => {
 
 const verifyEmailToken = async (req, res) => {
   const { token } = req.query;
-
   const tempUser = await TempUser.findOne({ token });
+  console.log("tempuser",tempUser);
   if (!tempUser || tempUser.tokenExpires < Date.now()) {
     return res.status(400).json({ message: "Token expired or invalid" });
   }
 
   await User.create({
-    name: tempUser.name,
-    email: tempUser.email,
-    password: tempUser.password
+    name: tempUser?.name,
+    email: tempUser?.email,
+    password: tempUser?.password
   });
 
   await TempUser.deleteOne({ _id: tempUser._id });
